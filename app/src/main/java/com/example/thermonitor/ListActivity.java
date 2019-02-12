@@ -10,22 +10,24 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 public class ListActivity extends AppCompatActivity {
+    ListView simpleList;
+    String nameArray[] = new String[] {"Iphone", "Linux", "BlackBerry", "Android", "Windows"};
+    Integer[] imageArray= {R.drawable.iphone, R.drawable.linux, R.drawable.blackberry,
+            R.drawable.android,R.drawable.windows} ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listactivity);
 
-        ListView simpleList = findViewById(R.id.simplelist);
-        String nameList[] = new String[] {"Android", "Iphone", "Windows", "BlackBerry", "Linux"};
-
-
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,  android.R.layout.simple_list_item_1, nameList);
-        simpleList.setAdapter(arrayAdapter);
+        CustomListAdapter whatever = new CustomListAdapter(this, nameArray, imageArray);
+        simpleList = (ListView) findViewById(R.id.simplelist);
+        simpleList.setAdapter(whatever);
         simpleList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, int position,
+                                    long id) {
+
                 Intent intent = new Intent(ListActivity.this, DeviceDetailActivity.class);
                 startActivity(intent);
             }

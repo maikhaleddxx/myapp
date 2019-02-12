@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "452197659652",
+    "firebase_url": "https://thermo-79570.firebaseio.com",
+    "project_id": "thermo-79570",
+    "storage_bucket": "thermo-79570.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:452197659652:android:702d4f1ec764a503",
+        "android_client_info": {
+          "package_name": "com.example.thermonitor"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "452197659652-dj1v5dufn8lk0ibtqq2lhoe3klqkl30b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCwzIzTfrx7R1OweCjCwCl-XYy7KiRXYFo"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

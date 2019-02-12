@@ -10,7 +10,7 @@
         android:id="@+id/simplelist"
         android:layout_width="395dp"
         android:layout_height="715dp"
-        android:background="@color/colorPrimary"
+        android:background="@color/pink"
         tools:layout_editor_absoluteX="8dp"
         tools:layout_editor_absoluteY="8dp" />
 

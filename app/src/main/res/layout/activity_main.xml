@@ -7,6 +7,7 @@
     tools:context=".MainActivity"
     android:orientation="vertical">
 
+
     <EditText
         android:id="@+id/Email"
         android:layout_width="match_parent"
@@ -30,8 +31,28 @@
         android:background="?attr/selectableItemBackground"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:text="Login" />
+        android:layout_gravity="center"
+        android:text="Sign in" />
+
+    <TextView
+        android:id="@+id/editText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:layout_gravity="center"
+        android:text="Not Having An Account?"
+        android:textSize="15dp"
+        android:textColor="@color/voilet"/>
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@color/voilet"
+        android:text="Register" />
+
+
 
 
 
