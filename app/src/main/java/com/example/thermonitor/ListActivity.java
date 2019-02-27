@@ -1,36 +1,98 @@
 package com.example.thermonitor;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
+import android.net.wifi.ScanResult;
+import android.net.wifi.WifiConfiguration;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ListActivity extends AppCompatActivity {
     ListView simpleList;
-    String nameArray[] = new String[] {"Iphone", "Linux", "BlackBerry", "Android", "Windows"};
-    Integer[] imageArray= {R.drawable.iphone, R.drawable.linux, R.drawable.blackberry,
-            R.drawable.android,R.drawable.windows} ;
+    //String nameArray[] = new String[] {"Iphone", "Linux", "BlackBerry", "Android", "Windows"};
+   Integer[] imageArray= {R.drawable.images} ;
 
+    private WifiManager wifiManager;
+   // private ListView listView;
+    private Button buttonScan;
+
+    private int size = 0;
+    private List<ScanResult> results;
+    private ArrayList<String> arrayList = new ArrayList<>();
+    CustomListAdapter whatever;
+
+    TextView text;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listactivity);
 
-        CustomListAdapter whatever = new CustomListAdapter(this, nameArray, imageArray);
+        whatever = new CustomListAdapter(this, arrayList);
         simpleList = (ListView) findViewById(R.id.simplelist);
         simpleList.setAdapter(whatever);
-        simpleList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position,
-                                    long id) {
+        wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
 
-                Intent intent = new Intent(ListActivity.this, DeviceDetailActivity.class);
-                startActivity(intent);
-            }
-        });
+        if (!wifiManager.isWifiEnabled()) {
+
+            Toast.makeText(this, "WiFi is disabled ... We need to enable it", Toast.LENGTH_LONG).show();
+
+            wifiManager.setWifiEnabled(true);
+
+        }
+
+        scanWifi();
+
     }
+
+    private void scanWifi() {
+
+        arrayList.clear();
+
+        registerReceiver(wifiReceiver, new IntentFilter(WifiManager.SCAN_RESULTS_AVAILABLE_ACTION));
+
+        wifiManager.startScan();
+
+        Toast.makeText(this, "Scanning WiFi ...", Toast.LENGTH_SHORT).show();
+
+    }
+
+
+
+    BroadcastReceiver wifiReceiver = new BroadcastReceiver() {
+
+        @Override
+
+        public void onReceive(Context context, Intent intent) {
+
+            results = wifiManager.getScanResults();
+
+            unregisterReceiver(this);
+            for (ScanResult scanResult : results) {
+                if(scanResult.SSID.equals("MyESP8266AP")){
+                arrayList.add(scanResult.SSID + " - " + scanResult.capabilities);
+
+                whatever.notifyDataSetChanged();
+
+            }}
+
+        }
+
+    };
+
 }
+
