@@ -15,6 +15,7 @@ import android.os.Build;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -23,6 +24,12 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.FirebaseOptions;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -40,14 +47,18 @@ public class ListActivity extends AppCompatActivity {
     private ArrayList<String> arrayList = new ArrayList<>();
     CustomListAdapter whatever;
 
-    TextView text;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_listactivity);
 
         if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.M){
-            if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)!= PackageManager.PERMISSION_GRANTED){
+            System.out.print("LOP");
+            if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)!=PackageManager.PERMISSION_GRANTED){
+                requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},87);
+            }
+            else{
                 requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},87);
             }
 
@@ -57,6 +68,13 @@ public class ListActivity extends AppCompatActivity {
         simpleList = (ListView) findViewById(R.id.simplelist);
         simpleList.setAdapter(whatever);
         wifiManager = (WifiManager) getApplicationContext().getSystemService(Context.WIFI_SERVICE);
+        simpleList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(ListActivity.this, DeviceDetailActivity.class);
+                startActivity(intent);
+            }
+        });
 
         if (!wifiManager.isWifiEnabled()) {
 
@@ -94,12 +112,13 @@ public class ListActivity extends AppCompatActivity {
 
             unregisterReceiver(this);
             for (ScanResult scanResult : results) {
-                if(scanResult.SSID.equals("MyESP8266AP")){
+                //if(scanResult.SSID.equals("MyESP8266AP")){
                 arrayList.add(scanResult.SSID + " - " + scanResult.capabilities);
 
                 whatever.notifyDataSetChanged();
 
-            }}
+                //}
+            }
 
         }
 
